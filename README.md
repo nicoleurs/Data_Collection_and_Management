@@ -14,16 +14,13 @@ To create an application that:
 * Scrapes hotel data from destinations (from booking, owned by kayak)
 * Gets weather data from each destination
 * Stores the information in a datalake
-* ETLs cleaned data from the data lake to a data warehouse
+* Store cleaned data into an RDS for easy access in the future
 * Displays the information to users.
 
 ## Scope
 This project focuses only on the best cities to travel to in France according to [One-Week-In.com](https://one-week-in.com/35-cities-to-visit-in-france/)
 
 ## Usage
-#### Scrap_best-cities.py
-##### Scrapes the best cities to travel to in France from one-week-in's website
-* Output file: Best_cities.json
 
 #### Scrap_booking.py
 ##### Scrapes information about the top hotels for each destination from booking.com
@@ -31,8 +28,8 @@ This project focuses only on the best cities to travel to in France according to
 
 #### Kayak.ipynb
 ##### Retrives the json files and dumps them in an amazon s3 bucket. It also cleans and formats them into csv files for storage in an amazon relational database service (RDS). Then it displays a plotly map that is the base for the kayak application.
-* Input files : Hotels.json, Best_cities.json
-* Output files: destination_weather.csv, hotels_data.csv
+* Input files : Hotels.json
+* Output files: destination_weather.csv, hotels_data.csv, urls.pkl
 
 ## Contributors
 
