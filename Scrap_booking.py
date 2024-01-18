@@ -1,53 +1,21 @@
 import os 
 import logging
+import pickle
 import scrapy
 from scrapy.crawler import CrawlerProcess
+
+with open ('urls.pkl', 'rb') as fp:
+    url_list = pickle.load(fp)
 
 class BookingSpider(scrapy.Spider):
 
     name = "booking"
 
-    start_urls = [
-                    'https://www.booking.com/searchresults.fr.html?ss=Mont+Saint+Michel',
-                    'https://www.booking.com/searchresults.fr.html?ss=St+Malo',
-                    'https://www.booking.com/searchresults.fr.html?ss=Bayeux',
-                    'https://www.booking.com/searchresults.fr.html?ss=Le+Havre',
-                    'https://www.booking.com/searchresults.fr.html?ss=Rouen',
-                    'https://www.booking.com/searchresults.fr.html?ss=Paris',
-                    'https://www.booking.com/searchresults.fr.html?ss=Amiens',
-                    'https://www.booking.com/searchresults.fr.html?ss=Lille',
-                    'https://www.booking.com/searchresults.fr.html?ss=Strasbourg',
-                    'https://www.booking.com/searchresults.fr.html?ss=Chateau+du+Haut+Koenigsbourg',
-                    'https://www.booking.com/searchresults.fr.html?ss=Colmar',
-                    'https://www.booking.com/searchresults.fr.html?ss=Eguisheim',
-                    'https://www.booking.com/searchresults.fr.html?ss=Besancon',
-                    'https://www.booking.com/searchresults.fr.html?ss=Dijon',
-                    'https://www.booking.com/searchresults.fr.html?ss=Annecy',
-                    'https://www.booking.com/searchresults.fr.html?ss=Grenoble',
-                    'https://www.booking.com/searchresults.fr.html?ss=Lyon',
-                    'https://www.booking.com/searchresults.fr.html?ss=Verdon+Gorge',
-                    'https://www.booking.com/searchresults.fr.html?ss=Bormes+les+Mimosas',
-                    'https://www.booking.com/searchresults.fr.html?ss=Cassis',
-                    'https://www.booking.com/searchresults.fr.html?ss=Marseille',
-                    'https://www.booking.com/searchresults.fr.html?ss=Aix+en+Provence',
-                    'https://www.booking.com/searchresults.fr.html?ss=Avignon',
-                    'https://www.booking.com/searchresults.fr.html?ss=Uzès',
-                    'https://www.booking.com/searchresults.fr.html?ss=Nímes',
-                    'https://www.booking.com/searchresults.fr.html?ss=Aigues+Mortes',
-                    'https://www.booking.com/searchresults.fr.html?ss=Saintes+Maries+de+la+mer',
-                    'https://www.booking.com/searchresults.fr.html?ss=Collioure',
-                    'https://www.booking.com/searchresults.fr.html?ss=Carcassonne',
-                    'https://www.booking.com/searchresults.fr.html?ss=Ariege',
-                    'https://www.booking.com/searchresults.fr.html?ss=Toulouse',
-                    'https://www.booking.com/searchresults.fr.html?ss=Montauban',
-                    'https://www.booking.com/searchresults.fr.html?ss=Biarritz',
-                    'https://www.booking.com/searchresults.fr.html?ss=Bayonne',
-                    'https://www.booking.com/searchresults.fr.html?ss=La+Rochelle',]
+    start_urls = url_list
 
     def parse(self, response):
-
-        city = response.xpath("substring-before(/html/body/div[5]/div/div[4]/div[1]/div[1]/div[1]/div/div/h1/text(), ':')").get()
-        hotels = response.xpath("/html/body/div[5]/div/div[4]/div[1]/div[1]/div[4]/div[2]/div[2]/div/div/div[3]/div")
+        city = response.xpath("substring-before(/html/body/div[4]/div/div[2]/div/div[2]/div[3]/div[2]/div[1]/h1/text(), ':')").get()
+        hotels = response.xpath("/html/body/div[4]/div/div[2]/div/div[2]/div[3]/div[2]/div[2]/div[3]/div")
         for hotel in hotels:
             name = hotel.xpath("div[1]/div[2]/div/div/div/div[1]/div/div[1]/div/h3/a/div[@data-testid='title']/text()").get()
             url = hotel.xpath("div[1]/div[2]/div/div/div/div[1]/div/div[1]/div/h3/a[@data-testid='title-link']/@href").get()
